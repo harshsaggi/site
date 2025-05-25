@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K4ur Softworks - Premium Gaming Solutions</title>
+    <link rel="shortcut icon" type="image/png" href="smallblack.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #2B6BE4;
+            --primary-dark: #1E4BA3;
+            --background: #0A0A0A;
+            --surface: #141414;
+            --text: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --accent: #FFFFFF;
+            --accent2: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0A0A0A 100%);
+        }
+
+        .nav-container {
+            text-align: center;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            animation: fadein 2s;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            color: inherit;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 80%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 100px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(10, 10, 10, 0) 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, rgba(10, 10, 10, 0) 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            animation: fadein 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            animation: fadein 1s ease-out 0.2s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadein 1s ease-out 0.4s backwards;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .cta-primary {
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            color: var(--background);
+            border: none;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-primary:active {
+            transform: translateY(0);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-secondary:active {
+            transform: translateY(0);
+        }
+
+        .features-preview {
+            margin-top: 6rem;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(224, 224, 224, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .games-section {
+            margin-top: 6rem;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .game-card {
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+                            overflow: hidden;
+            text-align: center;
+                        }
+                        
+        .game-card::before {
+            content: '';
+                            position: absolute;
+            top: 0;
+            left: 0;
+                            width: 100%;
+                            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(224, 224, 224, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .game-status {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .game-status.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border-color: var(--warning);
+        }
+
+        .testimonials-section {
+            margin-top: 6rem;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(224, 224, 224, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .testimonial-card:hover::before {
+            opacity: 1;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--background);
+        }
+
+        .author-info h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .pricing-section {
+            margin-top: 6rem;
+            padding-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(224, 224, 224, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .pricing-card:hover::before {
+            opacity: 1;
+        }
+
+        .pricing-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .pricing-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, var(--accent), var(--accent2));
+            color: var(--background);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            pointer-events: auto;
+            user-select: none;
+            -webkit-user-select: none;
+            min-width: 160px;
+        }
+
+        .pricing-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .pricing-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(224, 224, 224, 0.2));
+            border-radius: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pricing-button:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadein {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .container {
+                margin-top: 140px;
+            }
+
+            .pricing-grid,
+            .testimonials-grid,
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .discord-button {
+            position: fixed;
+            top: 30px;
+            right: 20px;
+            z-index: 1001;
+            background: linear-gradient(45deg, #5865F2, #7289DA);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            height: 48px;
+        }
+
+        .discord-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-button:active {
+            transform: translateY(0);
+        }
+
+        .discord-button img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            object-fit: contain;
+        }
+
+        .discord-button span {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://discord.gg/bleachhack" target="_blank" class="discord-button">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z" fill="white"/>
+        </svg>
+        <span>Join Discord</span>
+    </a>
+    <div class="nav-container">
+        <div class="nav-content">
+            <img src="black.png" alt="K4ur Softworks Logo" class="logo">
+            <div class="nav-links">
+                <a href="index.html" style="color:#FFFFFF">home</a>
+                <a href="features.html" style="color:#FFFFFF">features</a>
+                <a href="statistics.html" style="color:#FFFFFF">statistics</a>
+                <a href="script.html" style="color:#FFFFFF">script</a>
+                <a href="index.html#pricing" style="color:#FFFFFF">purchase</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <h1>K4ur Softworks</h1>
+            <p>Experience gaming like never before with our premium suite of advanced tools and features</p>
+            <div class="cta-buttons">
+                <a href="#pricing" class="cta-button cta-primary" role="button" tabindex="0">Purchase</a>
+                <a href="features.html" class="cta-button cta-secondary" role="button" tabindex="0">Explore Features</a>
+                <a href="script.html" class="cta-button cta-secondary" role="button" tabindex="0">Get Script</a>
+            </div>
+        </div>
+
+        <div class="features-preview">
+            <h2 class="section-title">Why Choose Us</h2>
+            <p class="section-subtitle">Discover the power of our advanced gaming solutions</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Advanced ESP</h3>
+                    <p class="feature-description">Gain the upper hand with our comprehensive ESP system, featuring customizable settings and real-time player tracking.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3 class="feature-title">Precision Aimbot</h3>
+                    <p class="feature-description">Dominate the competition with our highly customizable aimbot system, designed for maximum accuracy and performance.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Anti-Detection</h3>
+                    <p class="feature-description">Stay protected with our advanced anti-detection system, ensuring your gaming experience remains uninterrupted.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="games-section">
+            <h2 class="section-title">Supported Games</h2>
+            <p class="section-subtitle">Experience our features across multiple popular games</p>
+            
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-icon">🎮</div>
+                    <h3 class="game-title">Murder Mystery 2</h3>
+                    <div class="game-status">Fully Supported</div>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-icon">🎮</div>
+                    <h3 class="game-title">Adopt Me</h3>
+                    <div class="game-status">Coming Soon</div>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-icon">🎮</div>
+                    <h3 class="game-title">Blox Fruits</h3>
+                    <div class="game-status warning">In Development</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonials-section">
+            <h2 class="section-title">What Our Users Say</h2>
+            <p class="section-subtitle">Join thousands of satisfied users who trust K4ur Softworks</p>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The ESP system is incredibly accurate and the aimbot is smooth as butter. Best investment I've made for gaming."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">P</div>
+                        <div class="author-info">
+                            <h4>Player123</h4>
+                            <p>MM2 Player</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The anti-detection system is top-notch. I've been using it for months without any issues. Highly recommended!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">G</div>
+                        <div class="author-info">
+                            <h4>GamerPro</h4>
+                            <p>Adopt Me Player</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Customer support is amazing. They helped me set up everything and answered all my questions quickly."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">S</div>
+                        <div class="author-info">
+                            <h4>SkyBlade</h4>
+                            <p>Blox Fruits Player</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-section" id="pricing">
+            <h2 class="section-title">Premium Access</h2>
+            <p class="section-subtitle">Get full access to all features and updates</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 class="pricing-title">Premium</h3>
+                    <div class="pricing-price">$19.99</div>
+                    <ul class="pricing-features">
+                        <li>Advanced ESP Features</li>
+                        <li>Precision Aimbot</li>
+                        <li>Enhanced Anti-Detection</li>
+                        <li>24/7 Priority Support</li>
+                        <li>Regular Updates</li>
+                        <li>Custom Features</li>
+                        <li>Early Access</li>
+                        <li>Discord Access</li>
+                    </ul>
+                    <button type="button" class="pricing-button" onclick="window.location.href='script.html'" role="button" tabindex="0">
+                        Purchase Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.nav-container');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
